@@ -49,6 +49,6 @@ planeta2 = Planeta(
     6.9911e7,
     5.2
 )
-
+print("Lista de planetas, su densidad, tipo y biodiversidad")
 print(planeta1)
 print(planeta2)
