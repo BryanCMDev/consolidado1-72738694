@@ -30,7 +30,8 @@ class Planeta:
         return (
             f"Planeta: {self.nombre} | "
             f"Densidad: {densidad:.2f} kg/m³ | "
-            f"Tipo: {tipo}"
+            f"Tipo: {tipo} | "
+            f"Tiene vida: {'Sí' if self.tiene_vida else 'No'}"
         )
 
 
