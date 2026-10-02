@@ -69,6 +69,12 @@ class CuentaCorriente(CuentaBancaria):
         limite_sobregiro: float
     ):
         super().__init__(numero_cuenta, titular)
+
+        if limite_sobregiro < 0:
+            raise ValueError(
+                "El límite de sobregiro no puede ser negativo."
+            )
+
         self.limite_sobregiro = limite_sobregiro
 
     def retirar(self, monto: float):
@@ -87,20 +93,25 @@ class CuentaCorriente(CuentaBancaria):
                 "Se excedió el límite de sobregiro."
             )
 
+        # Si el retiro está dentro del saldo disponible,
+        # primero retiramos el saldo que existe.
         saldo_actual = self.consultar_saldo()
-        nuevo_saldo = saldo_actual - monto
 
-        # Accedemos al atributo privado mediante el método
-        # de depósito/retiro de la clase base.
-        if nuevo_saldo >= 0:
+        if monto <= saldo_actual:
             super().retirar(monto)
         else:
+            # Consumimos todo el saldo disponible.
             super().retirar(saldo_actual)
-            super().depositar(nuevo_saldo)
+
+            # El monto restante representa el sobregiro.
+            monto_sobregiro = monto - saldo_actual
+
+            # Usamos un atributo protegido temporalmente para
+            # permitir que el saldo sea negativo.
+            self._CuentaBancaria__saldo = -monto_sobregiro
 
     def permite_sobregiro(self) -> bool:
         return self.consultar_saldo() < 0
-
 
     def __str__(self):
         return (
