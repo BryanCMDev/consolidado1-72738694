@@ -10,7 +10,7 @@ class CuentaBancaria:
                 "El monto a depositar debe ser mayor a 0."
             )
 
-        self.__saldo += monto
+        self._ajustar_saldo(monto)
 
     def retirar(self, monto: float):
         if monto <= 0:
@@ -23,10 +23,13 @@ class CuentaBancaria:
                 "Saldo insuficiente."
             )
 
-        self.__saldo -= monto
+        self._ajustar_saldo(-monto)
 
     def consultar_saldo(self) -> float:
         return self.__saldo
+
+    def _ajustar_saldo(self, variacion: float) -> None:
+        self.__saldo += variacion
 
     def __str__(self):
         return (
@@ -93,22 +96,7 @@ class CuentaCorriente(CuentaBancaria):
                 "Se excedió el límite de sobregiro."
             )
 
-        # Si el retiro está dentro del saldo disponible,
-        # primero retiramos el saldo que existe.
-        saldo_actual = self.consultar_saldo()
-
-        if monto <= saldo_actual:
-            super().retirar(monto)
-        else:
-            # Consumimos todo el saldo disponible.
-            super().retirar(saldo_actual)
-
-            # El monto restante representa el sobregiro.
-            monto_sobregiro = monto - saldo_actual
-
-            # Usamos un atributo protegido temporalmente para
-            # permitir que el saldo sea negativo.
-            self._CuentaBancaria__saldo = -monto_sobregiro
+        self._ajustar_saldo(-monto)
 
     def permite_sobregiro(self) -> bool:
         return self.consultar_saldo() < 0
@@ -121,6 +109,10 @@ class CuentaCorriente(CuentaBancaria):
         )
 
 
+cuenta_bancaria = CuentaBancaria(
+    "000-000001",
+    "Bryan Cahuana"
+)
 cuenta_ahorros = CuentaAhorros(
     "001-123456",
     "Bryan Cahuana",
@@ -132,6 +124,16 @@ cuenta_corriente = CuentaCorriente(
     "Bryan Cahuana",
     500.0
 )
+
+print("=== CUENTA BANCARIA ===")
+cuenta_bancaria.depositar(500)
+cuenta_bancaria.retirar(100)
+print(cuenta_bancaria)
+
+try:
+    cuenta_bancaria.depositar(0)
+except ValueError as error:
+    print(f"Error de depósito esperado: {error}")
 
 print("=== CUENTA DE AHORROS ===")
 
@@ -163,3 +165,8 @@ print(
     f"¿Está usando sobregiro?: "
     f"{cuenta_corriente.permite_sobregiro()}"
 )
+
+try:
+    cuenta_corriente.retirar(301)
+except ValueError as error:
+    print(f"Error de sobregiro esperado: {error}")
