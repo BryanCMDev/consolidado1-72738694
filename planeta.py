@@ -15,8 +15,16 @@ class Planeta:
         self.radio = radio
         self.distancia_al_sol = distancia_al_sol
         self.tiene_vida = tiene_vida
+        self._validar_masa_y_radio()
+
+    def _validar_masa_y_radio(self) -> None:
+        if not math.isfinite(self.masa) or self.masa <= 0:
+            raise ValueError("La masa debe ser un número finito mayor que cero.")
+        if not math.isfinite(self.radio) or self.radio <= 0:
+            raise ValueError("El radio debe ser un número finito mayor que cero.")
 
     def calcular_densidad(self) -> float:
+        self._validar_masa_y_radio()
         volumen = (4 / 3) * math.pi * (self.radio ** 3)
         return self.masa / volumen
 
