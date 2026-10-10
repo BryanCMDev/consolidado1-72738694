@@ -1,3 +1,6 @@
+import math
+
+
 class Automovil:
     def __init__(
         self,
@@ -19,7 +22,7 @@ class Automovil:
 
     @año_fabricacion.setter
     def año_fabricacion(self, año: int) -> None:
-        if año < 1886 or año > 2026:
+        if not 1886 <= año <= 2026:
             raise ValueError(
                 "El año debe estar entre 1886 y 2026."
             )
@@ -32,7 +35,7 @@ class Automovil:
 
     @nivel_combustible.setter
     def nivel_combustible(self, nivel: float) -> None:
-        if nivel < 0.0 or nivel > 100.0:
+        if not math.isfinite(nivel) or not 0.0 <= nivel <= 100.0:
             raise ValueError(
                 "El nivel de combustible debe estar entre 0 y 100."
             )
@@ -45,7 +48,7 @@ class Automovil:
 
     @velocidad_max.setter
     def velocidad_max(self, velocidad: float) -> None:
-        if velocidad <= 0:
+        if not math.isfinite(velocidad) or velocidad <= 0:
             raise ValueError(
                 "La velocidad máxima debe ser mayor a 0."
             )
