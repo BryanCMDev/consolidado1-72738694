@@ -1,3 +1,6 @@
+import math
+
+
 class CuentaBancaria:
     def __init__(self, numero_cuenta: str, titular: str):
         self.numero_cuenta = numero_cuenta
@@ -5,7 +8,7 @@ class CuentaBancaria:
         self.__saldo = 0.0
 
     def depositar(self, monto: float):
-        if monto <= 0:
+        if not math.isfinite(monto) or monto <= 0:
             raise ValueError(
                 "El monto a depositar debe ser mayor a 0."
             )
@@ -13,7 +16,7 @@ class CuentaBancaria:
         self._ajustar_saldo(monto)
 
     def retirar(self, monto: float):
-        if monto <= 0:
+        if not math.isfinite(monto) or monto <= 0:
             raise ValueError(
                 "El monto a retirar debe ser mayor a 0."
             )
@@ -73,15 +76,15 @@ class CuentaCorriente(CuentaBancaria):
     ):
         super().__init__(numero_cuenta, titular)
 
-        if limite_sobregiro < 0:
+        if not math.isfinite(limite_sobregiro) or limite_sobregiro < 0:
             raise ValueError(
-                "El límite de sobregiro no puede ser negativo."
+                "El límite de sobregiro debe ser finito y no negativo."
             )
 
         self.limite_sobregiro = limite_sobregiro
 
     def retirar(self, monto: float):
-        if monto <= 0:
+        if not math.isfinite(monto) or monto <= 0:
             raise ValueError(
                 "El monto a retirar debe ser mayor a 0."
             )
