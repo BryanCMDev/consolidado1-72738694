@@ -8,7 +8,7 @@ herencia, encapsulamiento y validación de datos.
 
 **Autor:** Bryan Alexander Cahuana Mendoza
 
-**Código de estudiante:** [Completar por el estudiante]
+**Código de estudiante:** 72738694
 
 ## Archivos
 
