@@ -9,16 +9,16 @@ class Automovil:
     ):
         self.marca = marca
         self.modelo = modelo
-        self._velocidad_max = velocidad_max
-        self._nivel_combustible = nivel_combustible
-        self._año_fabricacion = año_fabricacion
+        self.velocidad_max = velocidad_max
+        self.nivel_combustible = nivel_combustible
+        self.año_fabricacion = año_fabricacion
 
     @property
-    def año_fabricacion(self):
+    def año_fabricacion(self) -> int:
         return self._año_fabricacion
 
     @año_fabricacion.setter
-    def año_fabricacion(self, año):
+    def año_fabricacion(self, año: int) -> None:
         if año < 1886 or año > 2026:
             raise ValueError(
                 "El año debe estar entre 1886 y 2026."
@@ -27,11 +27,11 @@ class Automovil:
         self._año_fabricacion = año
 
     @property
-    def nivel_combustible(self):
+    def nivel_combustible(self) -> float:
         return self._nivel_combustible
 
     @nivel_combustible.setter
-    def nivel_combustible(self, nivel):
+    def nivel_combustible(self, nivel: float) -> None:
         if nivel < 0.0 or nivel > 100.0:
             raise ValueError(
                 "El nivel de combustible debe estar entre 0 y 100."
@@ -40,11 +40,11 @@ class Automovil:
         self._nivel_combustible = nivel
 
     @property
-    def velocidad_max(self):
+    def velocidad_max(self) -> float:
         return self._velocidad_max
 
     @velocidad_max.setter
-    def velocidad_max(self, velocidad):
+    def velocidad_max(self, velocidad: float) -> None:
         if velocidad <= 0:
             raise ValueError(
                 "La velocidad máxima debe ser mayor a 0."
